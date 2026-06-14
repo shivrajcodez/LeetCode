@@ -1,0 +1,43 @@
+class Solution {
+    public int pairSum(ListNode head) {
+        if (head == null) return 0;
+        
+        // 1. Find the middle of the linked list
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        // 2. Reverse the second half of the list starting from 'slow'
+        ListNode reversedHalf = reverseList(slow);
+        
+        // 3. Compare values from the start and the reversed second half
+        int maxTwinSum = 0;
+        ListNode firstHalfPtr = head;
+        ListNode secondHalfPtr = reversedHalf;
+        
+        while (secondHalfPtr != null) {
+            maxTwinSum = Math.max(maxTwinSum, firstHalfPtr.val + secondHalfPtr.val);
+            firstHalfPtr = firstHalfPtr.next;
+            secondHalfPtr = secondHalfPtr.next;
+        }
+        
+        return maxTwinSum;
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+}
