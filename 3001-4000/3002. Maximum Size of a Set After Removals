@@ -1,0 +1,29 @@
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+    public int maximumSetSize(int[] v1, int[] v2) {
+        Set<Integer> s1 = new HashSet<>();
+        Set<Integer> s2 = new HashSet<>();
+        for (int i : v1)
+            s1.add(i);
+        for (int i : v2)
+            s2.add(i);
+        int n = v1.length, m = v2.length;
+        int x = s1.size(), y = s2.size();
+        int ans = Math.min(n / 2, x);
+        int rem = x - ans;
+        int c = 0;
+        for (int i : s2) {
+            if (!s1.contains(i)) {
+                c++;
+            } else if (rem > 0) {
+                c++;
+                rem--;
+            }
+            if (c >= m / 2)
+                break;
+        }
+        return ans + c;
+    }
+}
