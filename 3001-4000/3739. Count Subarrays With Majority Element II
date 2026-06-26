@@ -1,0 +1,29 @@
+class Solution{
+
+public static long countMajoritySubarrays(int[] nums, int target){
+	long totalSum = 0;
+
+	int prefixSum = 0;
+	var cnts = new int[nums.length + 1 + nums.length];
+	cnts[nums.length] += 1;
+	int cntSum = 1;
+
+	for (int num : nums){
+		if (num == target){
+			prefixSum += 1;
+			cnts[nums.length + prefixSum] += 1;
+			cntSum += cnts[nums.length + prefixSum];
+		}else {
+			cntSum -= cnts[nums.length + prefixSum];
+			prefixSum -= 1;
+			cnts[nums.length + prefixSum] += 1;
+			cntSum += 1;
+		}
+
+		totalSum += cntSum - cnts[nums.length + prefixSum];
+	}
+
+	return totalSum;
+}
+
+}
